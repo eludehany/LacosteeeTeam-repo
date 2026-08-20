@@ -9,6 +9,21 @@ A real-time IoT data pipeline that simulates live vehicle telemetry, streams it 
 
 ---
 
+## 📊 Power BI Dashboards — *start here*
+
+> 🖼️ *Dashboard screenshots coming soon.*
+
+The core deliverable of this project is two Power BI dashboards, built and maintained by **[eludehany](https://github.com/eludehany)**:
+
+| Dashboard | Description | File |
+|---|---|---|
+| 🔴 **Live Streaming Dashboard** | Real-time vehicle telemetry — speed, engine temperature, oil pressure, battery, fuel, and per-tyre readings — updating automatically with **no manual refresh**, powered by an Azure Stream Analytics → Power BI streaming dataset. | [`01_Streaming_Car_Telemetry.pbix`](./01_Streaming_Car_Telemetry.pbix) |
+| 📈 **Batch Analytics Dashboard** | Historical, aggregated analysis of vehicle telemetry — trends, fault statistics, and fleet-level summaries — built on dbt-modeled tables from the batch pipeline. | [`02_Batch_Car_Telemetry.pbix`](./02_Batch_Car_Telemetry.pbix) |
+
+**To open either dashboard:** download the `.pbix` file above and open it in [Power BI Desktop](https://www.microsoft.com/en-us/power-platform/products/power-bi/desktop). The streaming dashboard requires an active connection to the Power BI streaming dataset described below to show live data.
+
+---
+
 ## 📖 Overview
 
 This project simulates a car's onboard sensors (engine, oil, battery, fuel, tyres, speed) and processes that telemetry through **two complementary pipelines**, mirroring how real data platforms combine both patterns:
@@ -42,7 +57,7 @@ This project simulates a car's onboard sensors (engine, oil, battery, fuel, tyre
                       └─────────┬──────────┘  Azure SQL Database    Power BI Streaming
                                 │              (archive + alerts)      Dataset (live)
                                 ▼
-                    Batch dashboard (Batch_Car_Telemetry.pbix)
+                    Batch dashboard (02_Batch_Car_Telemetry.pbix)
 ```
 
 ---
@@ -96,7 +111,7 @@ Pushes **every telemetry tick, unfiltered**, so the dashboard stays live and ani
 
 This project ships **two Power BI dashboards**, one per pipeline:
 
-### `Streaming_Car_Telemetry.pbix` — Live dashboard
+### `01_Streaming_Car_Telemetry.pbix` — Live dashboard
 Built on the Power BI **streaming dataset**, connected live to the Stream Analytics output. Includes auto-updating tiles for:
 - Current speed, engine temperature, oil pressure, battery voltage, fuel level
 - Per-tyre pressure/temperature readouts
@@ -105,7 +120,7 @@ Built on the Power BI **streaming dataset**, connected live to the Stream Analyt
 
 > ⚠️ Streaming tiles require the **Power BI Service** (app.powerbi.com), not Power BI Desktop — Desktop reports need manual refresh and don't support push-streaming datasets.
 
-### `Batch_Car_Telemetry.pbix` — Historical/analytical dashboard
+### `02_Batch_Car_Telemetry.pbix` — Historical/analytical dashboard
 Built on the **dbt-modeled tables** produced by the batch pipeline. Used for deeper, non-real-time analysis — trends over time, aggregate fault statistics, and fleet-level summaries — the kind of reporting that complements the live operational view above.
 
 ---
@@ -158,8 +173,8 @@ Open the dashboard in **Power BI Service** — tiles connected to the streaming 
 ├── dbt_project/                # SQL transformations for historical data
 ├── airflow/                    # Batch/orchestration workflows
 ├── postgres/                   # Batch pipeline raw landing zone
-├── Streaming_Car_Telemetry.pbix  # Live streaming dashboard
-├── Batch_Car_Telemetry.pbix      # Historical/analytical dashboard
+├── 01_Streaming_Car_Telemetry.pbix  # Live streaming dashboard
+├── 02_Batch_Car_Telemetry.pbix      # Historical/analytical dashboard
 ├── docker-compose.yml
 ├── .env.example
 └── README.md
